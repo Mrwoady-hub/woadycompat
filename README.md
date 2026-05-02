@@ -24,8 +24,12 @@ Small compatibility-layer experiments for understanding how Windows-style API ca
 ### Phase 3 — Static PE Mapper
 Educational model of loader concepts. Analyzes PE headers, sections, RVA mapping, and imports without executing binaries.
 
-### Phase 4 — Wine Source Reading Notes
-Architecture notes for understanding Wine internals.
+### Phase 4 — Wine Architecture & Debugging
+Architecture documentation and debugging workflow. Connects all tools into coherent compatibility research.
+
+See:
+- [docs/wine-architecture-map.md](docs/wine-architecture-map.md) — How Wine maps Windows concepts to Linux
+- [docs/wine-debugging-workflow.md](docs/wine-debugging-workflow.md) — Using tools to diagnose compatibility issues
 
 ### Phase 5 — Vulkan and SPIR-V Study
 Graphics compatibility research focused on Vulkan device enumeration and SPIR-V shader inspection.
@@ -84,14 +88,43 @@ Summarizes:
 - First failure point
 - Estimated compatibility category (graphics, networking, filesystem, etc.)
 
+## How the Tools Connect
+
+**Diagnosis workflow:**
+
+```
+Windows PE Binary (game.exe, app.exe, etc.)
+         ↓
+   pe_inspector.py → "What does this binary need?"
+         ↓
+   pe_mapper.py → "How would a loader arrange this in memory?"
+         ↓
+Run with Wine debug output
+         ↓
+   wine_debug_analyzer.py → "What went wrong and where?"
+         ↓
+   [Architecture map] → "Why is Wine designed that way?"
+         ↓
+   [Debugging workflow] → "How do I fix this?"
+```
+
+Each tool reveals one layer:
+1. **Static analysis** — What the binary contains
+2. **Loader model** — How it should be arranged
+3. **Runtime behavior** — What actually happened
+4. **Architecture** — Why Wine/Proton works the way it does
+5. **Workflow** — How to diagnose and fix issues
+
+## Understanding the Project
+
+Start here based on your interest:
+
+- **Want to understand PE files?** → [pe_inspector.py](tools/pe_inspector.py)
+- **Want to understand loading?** → [pe_mapper.py](tools/pe_mapper.py) + [wine-architecture-map.md](docs/wine-architecture-map.md)
+- **Want to debug compatibility?** → [wine_debug_analyzer.py](tools/wine_debug_analyzer.py) + [wine-debugging-workflow.md](docs/wine-debugging-workflow.md)
+- **Want to understand graphics?** → [vulkan_info.c](tools/vulkan_info.c) + [spirv_inspect.py](tools/spirv_inspect.py)
+
 ## Validation
-
-Phase 5 confirmed:
-
-- NVIDIA GeForce RTX 5070 detected as a Vulkan discrete GPU
-- AMD Ryzen 7 9800X3D iGPU detected through RADV
-- llvmpipe detected as CPU fallback
-- Minimal vertex shader successfully inspected as SPIR-V
 
 Phase 3 confirmed:
 
@@ -100,6 +133,21 @@ Phase 3 confirmed:
 - Section mapping with RVA translation
 - Import table structure analysis
 - Educational loader reasoning walkthrough
+
+Phase 4 confirmed:
+
+- Wine architecture layers clearly mapped
+- Binary format → Loader → API shim → Linux syscalls
+- Debugging workflow connects all tools systematically
+- Import resolution concepts explained
+- Real-world diagnosis examples documented
+
+Phase 5 confirmed:
+
+- NVIDIA GeForce RTX 5070 detected as a Vulkan discrete GPU
+- AMD Ryzen 7 9800X3D iGPU detected through RADV
+- llvmpipe detected as CPU fallback
+- Minimal vertex shader successfully inspected as SPIR-V
 
 Phase 6 confirmed:
 
