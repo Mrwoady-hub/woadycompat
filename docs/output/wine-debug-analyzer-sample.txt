@@ -1,0 +1,50 @@
+
+======================================================================
+  WoadyCompat Wine/Proton Debug Log Analyzer
+======================================================================
+
+Total lines: 39
+
+DLLs Loaded: 22
+  ├── advapi32.dll
+  ├── comctl32.dll
+  ├── comdlg32.dll
+  ├── d3d9.dll
+  ├── dbghelp.dll
+  ├── dinput8.dll
+  ├── dxgi.dll
+  ├── gdi32.dll
+  ├── kernel32.dll
+  └── mscoree.dll
+  └── ... and 12 more
+
+Missing DLLs: 1
+  ✗ d3dcompiler_47.dll
+
+Warnings: 8
+  [1] 0024:0028 warn:d3d:wined3d_adapter_create_device FAILED to s...
+  [2] 0024:002d warn:d3d:wined3d_check_device_format Format WINED3...
+  [3] 0024:002d warn:d3d11:d3d11_device_CheckFeatureSupport Unimpl...
+  [4] 0024:0031 warn:dxgi:dxgi_adapter_init Unimplemented feature
+  [5] 0024:0033 warn:vulkan:wine_vk_init Cannot find Vulkan driver
+  ... and 3 more
+
+Errors: 8
+  [1] 0024:0028 warn:d3d:wined3d_adapter_create_device FAILED to s...
+  [2] 0024:0034 err:module:load_builtin_dll Failed to load builtin...
+  [3] 0024:0034 warn:seh:raise_exception Unhandled exception in th...
+  [4] SEH: 0024:0034 warn:seh:raise_exception Unhandled exception ...
+  [5] 0024:0035 warn:winsock:socket_error Failed to connect to soc...
+  ... and 3 more
+
+First Failure:
+  Line: 3
+  0024:0028 warn:d3d:wined3d_adapter_create_device FAILED to set ne...
+
+Estimated Category: Graphics Compatibility Issue
+  → Likely needs: DXVK, VKD3D, or GPU driver update
+
+======================================================================
+Educational reference for Wine/Proton troubleshooting
+======================================================================
+

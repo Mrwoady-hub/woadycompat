@@ -1,0 +1,39 @@
+0024:0028 fixme:msvfw32:MCIWndCreate unhandled message 0x0403
+0024:0028 fixme:quartz:MediaSeekingImpl_GetDuration ((nil))->(): stub
+0024:0028 warn:d3d:wined3d_adapter_create_device FAILED to set new screen mode! Falling back to 1920x1080.
+0024:002c loaddll: dll kernel32.dll
+0024:002c loaddll: dll ntdll.dll
+0024:002c loaddll: dll user32.dll
+0024:002c loaddll: dll advapi32.dll
+0024:002c loaddll: dll gdi32.dll
+0024:002c loaddll: dll wininet.dll
+0024:002c loaddll: dll mscoree.dll
+0024:002d warn:d3d:wined3d_check_device_format Format WINED3DFMT_P8_RGB not supported by device
+0024:002d warn:d3d11:d3d11_device_CheckFeatureSupport Unimplemented feature level 12_1
+0024:0030 loaddll: dll comctl32.dll
+0024:0030 loaddll: dll ole32.dll
+0024:0030 loaddll: dll oleaut32.dll
+0024:0030 loaddll: dll shlwapi.dll
+0024:0031 loaddll: dll d3d9.dll
+0024:0031 loaddll: dll dxgi.dll
+0024:0031 warn:dxgi:dxgi_adapter_init Unimplemented feature
+0024:0031 loaddll: dll wined3d.dll
+0024:0032 err:d3d:resource_init Cannot allocate device-local memory for resource
+0024:0032 loaddll: dll opengl32.dll
+0024:0033 warn:vulkan:wine_vk_init Cannot find Vulkan driver
+0024:0034 err:module:find_dll_module Cannot find dll "d3dcompiler_47.dll"
+0024:0034 err:module:load_builtin_dll Failed to load builtin module for d3dcompiler_47
+0024:0034 warn:seh:raise_exception Unhandled exception in thread 0024:002c
+0024:0034 loaddll: dll shell32.dll
+0024:0034 loaddll: dll comdlg32.dll
+0024:0035 err:imm32:ImmAssociateContext Cannot create input context
+0024:0035 warn:winsock:socket_error Failed to connect to socket: No such file or directory
+0024:0036 err:vulkan:wine_vk_init_gpu_instance Could not find Vulkan loader
+0024:0037 loaddll: dll msvcrm120.dll
+0024:0037 loaddll: dll msvcr120.dll
+0024:0038 err:seh:setup_exception_record Exception 0xc0000374 Heap block at 0x1234abcd damaged
+0024:0039 loaddll: dll xinput1_4.dll
+0024:0039 loaddll: dll dinput8.dll
+0024:003a warn:input:wineserver_call Raw input thread failed
+0024:003a loaddll: dll dbghelp.dll
+0024:003b fixme:msg:RegisterTouchWindow (0x001e0ac8, 0x00000000) - semi-stub
