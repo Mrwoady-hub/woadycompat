@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "shim_demo": true,
+    "tools/vulkan_info": true
+  },
+  "C_Cpp.default.includePath": [
+    "/usr/include",
+    "/usr/include/vulkan",
+    "${workspaceFolder}/shim",
+    "${workspaceFolder}/**"
+  ],
+  "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+  "C_Cpp.default.cStandard": "c11",
+  "python.defaultInterpreterPath": "/usr/bin/python3"
+}

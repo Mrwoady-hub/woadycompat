@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "make: build shim_demo",
+      "type": "shell",
+      "command": "make",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "make: clean",
+      "type": "shell",
+      "command": "make clean",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "build: vulkan_info",
+      "type": "shell",
+      "command": "gcc tools/vulkan_info.c -o tools/vulkan_info -lvulkan -Wall",
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "run: vulkan_info",
+      "type": "shell",
+      "command": "./tools/vulkan_info",
+      "dependsOn": "build: vulkan_info",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "run: spirv_inspect",
+      "type": "shell",
+      "command": "python3 tools/spirv_inspect.py /tmp/minimal.spv",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "run: pe_inspector",
+      "type": "shell",
+      "command": "python3 tools/pe_inspector.py samples/nmap_service.exe",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "run: pe_mapper",
+      "type": "shell",
+      "command": "python3 tools/pe_mapper.py samples/nmap_service.exe",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    }
+  ]
+}
