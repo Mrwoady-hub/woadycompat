@@ -1,35 +1,78 @@
 # WoadyCompat
 
-A learning-focused Windows compatibility layer project for Linux.
+WoadyCompat is a learning-focused Windows compatibility research project for Linux.
 
-## Goal
+The goal is to understand how Wine/Proton-style compatibility works by building small, safe, non-executing tools and architecture notes.
 
-WoadyCompat explores how Wine/Proton-style compatibility works by building small, understandable components:
+## Current Focus
 
 - PE file inspection
-- Windows binary metadata parsing
-- Import table analysis
-- Win32 API shim experiments
-- Loader architecture notes
-- Wine/Proton internals research
+- Static PE mapping concepts
+- Win32 API concept mapping
+- Wine source reading notes
+- Vulkan device enumeration
+- SPIR-V shader bytecode inspection
 
-## Roadmap
+## Project Phases
 
-- [x] Phase 0 — Study Wine/Proton architecture
-- [x] Phase 1 — PE Inspector (`tools/pe_inspector.py`) — stdlib only, static analysis
-- [x] Phase 2 — Win32 API shim layer (C)
-- [ ] Phase 3 — Toy PE mapper — parse headers, model section layout in Python data structures, explain how a loader *reasons* about sections and imports (no binary execution)
-- [ ] Phase 4 — Wine source study
-- [ ] Phase 5 — Graphics translation concepts (DXVK/VKD3D)
-- [ ] Phase 6 — Proton-specific internals
+### Phase 1 — PE Inspector
+Static parser for Windows PE metadata.
 
-## Usage
+### Phase 2 — API Shim Concepts
+Small compatibility-layer experiments for understanding how Windows-style API calls can map to Linux-side behavior.
+
+### Phase 3 — Static PE Mapper
+Educational model of loader concepts without executing binaries.
+
+### Phase 4 — Wine Source Reading Notes
+Architecture notes for understanding Wine internals.
+
+### Phase 5 — Vulkan and SPIR-V Study
+Graphics compatibility research focused on Vulkan device enumeration and SPIR-V shader inspection.
+
+## Tools
+
+### Vulkan Device Enumerator
 
 ```bash
-# Inspect a Windows PE binary
-python3 tools/pe_inspector.py samples/notepad.exe
+gcc tools/vulkan_info.c -o tools/vulkan_info -lvulkan
+./tools/vulkan_info
 ```
 
-## Legal / Ethical Scope
+### SPIR-V Inspector
 
-This project is for compatibility research, systems programming education, and defensive cybersecurity learning.
+```bash
+python3 tools/spirv_inspect.py /tmp/minimal.spv
+```
+
+### PE Inspector
+
+```bash
+python3 tools/pe_inspector.py samples/nmap_service.exe
+```
+
+## Validation
+
+Phase 5 confirmed:
+
+- NVIDIA GeForce RTX 5070 detected as a Vulkan discrete GPU
+- AMD Ryzen 7 9800X3D iGPU detected through RADV
+- llvmpipe detected as CPU fallback
+- Minimal vertex shader successfully inspected as SPIR-V
+
+## Safety Scope
+
+This project is for educational compatibility research, systems programming, and defensive cybersecurity learning.
+
+It does not include:
+
+- malware behavior
+- process injection
+- shellcode
+- DRM bypass
+- anti-cheat bypass
+- arbitrary binary execution
+
+## Status
+
+Active learning project.

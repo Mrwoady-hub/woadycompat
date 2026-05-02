@@ -1,0 +1,49 @@
+================================================================
+  WoadyCompat SPIR-V Inspector
+================================================================
+  File : minimal.spv
+  Path : /tmp/minimal.spv
+  Size : 664 bytes
+
+----------------------------------------------------------------
+  SPIR-V HEADER
+----------------------------------------------------------------
+  Magic     : 0x07230203  [VALID — little-endian]
+  Version   : 0x00010000  -> SPIR-V 1.0
+  Generator : 0x0008000b  -> Unknown (0x0008000b)
+  Bound     : 20  (IDs 1..19 may be used)
+  Schema    : 0  (reserved, must be 0)
+
+----------------------------------------------------------------
+  ENTRY POINTS
+----------------------------------------------------------------
+  Stage: Vertex                        Name: main
+
+----------------------------------------------------------------
+  FIRST 20 INSTRUCTIONS  (word offset / opcode / name / word-count)
+----------------------------------------------------------------
+  word     5: op=   17  OpCapability                      words=2
+  word     7: op=   11  OpExtInstImport                   words=6
+  word    13: op=   14  OpMemoryModel                     words=3
+  word    16: op=   15  OpEntryPoint                      words=6
+  word    22: op=    3  OpSource                          words=3
+  word    25: op=    5  OpName                            words=4
+  word    29: op=    5  OpName                            words=6
+  word    35: op=    6  OpMemberName                      words=6
+  word    41: op=    6  OpMemberName                      words=7
+  word    48: op=    6  OpMemberName                      words=7
+  word    55: op=    6  OpMemberName                      words=7
+  word    62: op=    5  OpName                            words=3
+  word    65: op=   71  OpDecorate                        words=3
+  word    68: op=   72  OpMemberDecorate                  words=5
+  word    73: op=   72  OpMemberDecorate                  words=5
+  word    78: op=   72  OpMemberDecorate                  words=5
+  word    83: op=   72  OpMemberDecorate                  words=5
+  word    88: op=   19  OpTypeVoid                        words=2
+  word    90: op=   33  OpTypeFunction                    words=3
+  word    93: op=   22  OpTypeFloat                       words=3
+  ... and 18 more instruction(s) not shown.
+
+----------------------------------------------------------------
+  Total file words : 166  (header=5, instructions=161)
+================================================================

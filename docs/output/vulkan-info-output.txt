@@ -1,0 +1,30 @@
+WoadyCompat Vulkan Device Enumerator
+Physical devices found: 3
+
+GPU0
+  Name:          NVIDIA GeForce RTX 5070
+  Device Type:   DISCRETE_GPU
+  Vendor ID:     0x10de
+  Device ID:     0x2f04
+  API Version:   1.4.329
+  Driver Version: 2496561344
+  Queue Families: 6
+
+GPU1
+  Name:          AMD Ryzen 7 9800X3D 8-Core Processor (RADV RAPHAEL_MENDOCINO)
+  Device Type:   INTEGRATED_GPU
+  Vendor ID:     0x1002
+  Device ID:     0x13c0
+  API Version:   1.4.335
+  Driver Version: 109051907
+  Queue Families: 5
+
+GPU2
+  Name:          llvmpipe (LLVM 21.1.8, 256 bits)
+  Device Type:   CPU
+  Vendor ID:     0x10005
+  Device ID:     0x0000
+  API Version:   1.4.335
+  Driver Version: 109051907
+  Queue Families: 1
+
