@@ -16,9 +16,9 @@ WoadyCompat explores how Wine/Proton-style compatibility works by building small
 ## Roadmap
 
 - [x] Phase 0 — Study Wine/Proton architecture
-- [ ] Phase 1 — PE Inspector (`tools/pe_inspector.py`)
-- [ ] Phase 2 — Win32 API shim layer (C)
-- [ ] Phase 3 — Toy PE loader
+- [x] Phase 1 — PE Inspector (`tools/pe_inspector.py`) — stdlib only, static analysis
+- [x] Phase 2 — Win32 API shim layer (C)
+- [ ] Phase 3 — Toy PE mapper — parse headers, model section layout in Python data structures, explain how a loader *reasons* about sections and imports (no binary execution)
 - [ ] Phase 4 — Wine source study
 - [ ] Phase 5 — Graphics translation concepts (DXVK/VKD3D)
 - [ ] Phase 6 — Proton-specific internals
