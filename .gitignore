@@ -1,0 +1,12 @@
+# Compiled binaries
+tools/vulkan_info
+shim_demo
+*.o
+*.out
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local samples / test binaries
+samples/
