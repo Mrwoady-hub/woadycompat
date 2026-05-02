@@ -6,8 +6,7 @@ The goal is to understand how Wine/Proton-style compatibility works by building 
 
 ## Current Focus
 
-- PE file inspection
-- Static PE mapping concepts
+- PE file inspection and static mapping
 - Win32 API concept mapping
 - Wine source reading notes
 - Vulkan device enumeration
@@ -23,7 +22,7 @@ Static parser for Windows PE metadata.
 Small compatibility-layer experiments for understanding how Windows-style API calls can map to Linux-side behavior.
 
 ### Phase 3 — Static PE Mapper
-Educational model of loader concepts without executing binaries.
+Educational model of loader concepts. Analyzes PE headers, sections, RVA mapping, and imports without executing binaries.
 
 ### Phase 4 — Wine Source Reading Notes
 Architecture notes for understanding Wine internals.
@@ -55,6 +54,20 @@ python3 tools/spirv_inspect.py /tmp/minimal.spv
 python3 tools/pe_inspector.py samples/nmap_service.exe
 ```
 
+### Static PE Mapper
+
+```bash
+python3 tools/pe_mapper.py samples/nmap_service.exe
+```
+
+Analyzes:
+- DOS and PE signature validation
+- COFF and Optional header structure
+- Section table and RVA-to-file-offset mapping
+- Import directory metadata
+- Loader reasoning walkthrough (educational)
+- Relocation metadata
+
 ### Wine/Proton Debug Log Analyzer
 
 ```bash
@@ -79,6 +92,14 @@ Phase 5 confirmed:
 - AMD Ryzen 7 9800X3D iGPU detected through RADV
 - llvmpipe detected as CPU fallback
 - Minimal vertex shader successfully inspected as SPIR-V
+
+Phase 3 confirmed:
+
+- PE file format validation (MZ, PE signatures)
+- Virtual address space reservation model
+- Section mapping with RVA translation
+- Import table structure analysis
+- Educational loader reasoning walkthrough
 
 Phase 6 confirmed:
 

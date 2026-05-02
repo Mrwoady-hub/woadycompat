@@ -1,0 +1,136 @@
+========================================================================
+  WoadyCompat PE Mapper — loader reasoning walkthrough
+========================================================================
+  File   : nmap_service.exe
+  Size   : 262,889 bytes
+  Format : PE32  (EXE)  x86
+
+------------------------------------------------------------------------
+  STEP 1 — Verify the file is a PE binary
+------------------------------------------------------------------------
+  Loader reads offset 0 → MZ magic    : b'MZ'  ✓
+  Loader reads offset 0x3C → e_lfanew : 0x80
+  Loader reads [0x80] → PE sig      : b'PE\x00\x00'  ✓
+
+  WHY: Before doing anything else a loader confirms these two magic
+  values.  If either is wrong the file is rejected immediately.
+
+------------------------------------------------------------------------
+  STEP 2 — Reserve virtual address space
+------------------------------------------------------------------------
+  Preferred image base : 0x0000000000400000
+  Total image size     : 0x00040000  (262,144 bytes)
+  Section alignment    : 0x00001000  (in memory, usually 0x1000 = 4 KB page)
+  File alignment       : 0x00000200  (in the .exe file on disk)
+
+  WHY: The loader calls VirtualAlloc (Windows) / mmap (Linux Wine)
+  to reserve 262,144 bytes starting at the image base.
+  If that address is already taken, relocation kicks in (see .reloc).
+
+------------------------------------------------------------------------
+  STEP 3 — Map sections from file into virtual memory
+------------------------------------------------------------------------
+  Section       File offset  File size  →         VA (base + RVA)    Mem size  Permissions
+----------------------------------------------------------------------------------------
+  .text      0x000000000400      31744  →  0x00000000000000401000       31552  X/R
+  .data      0x000000008000        512  →  0x00000000000000409000          88  R/W
+  .rdata     0x000000008200       3584  →  0x0000000000000040a000        3220  R
+  /4         0x000000009000       5632  →  0x0000000000000040b000        5400  R
+  .bss       0x000000000000          0  →  0x0000000000000040d000        2716  R/W
+  .idata     0x00000000a600       2560  →  0x0000000000000040e000        2060  R
+  .tls       0x00000000b000        512  →  0x0000000000000040f000           8  R/W
+  .reloc     0x00000000b200       1536  →  0x00000000000000410000        1316  R
+  /14        0x00000000b800       1536  →  0x00000000000000411000        1176  R
+  /29        0x00000000be00      82944  →  0x00000000000000412000       82759  R
+  /41        0x000000020200      14848  →  0x00000000000000427000       14643  R
+  /55        0x000000023c00      31232  →  0x0000000000000042b000       31065  R
+  /67        0x00000002b600       1024  →  0x00000000000000433000         903  R
+  /78        0x00000002ba00       8704  →  0x00000000000000434000        8500  R
+  /94        0x00000002dc00      30208  →  0x00000000000000437000       29730  R
+  /110       0x000000035200       2048  →  0x0000000000000043f000        1544  R
+
+  WHY: Each section gets mapped to its virtual address. The loader
+  copies raw bytes from file → memory, then zero-fills if virtual_size
+  > raw_size (common for .bss which has no raw data at all).
+  Permissions (R/W/X) come from section Characteristics — the loader
+  calls mprotect / VirtualProtect to enforce them.
+
+------------------------------------------------------------------------
+  STEP 4 — Resolve imports (the hardest loader job)
+------------------------------------------------------------------------
+  4 DLL(s) required, 70 function(s) to resolve.
+
+  ┌ ADVAPI32.dll  (3 imports)
+  │   RegisterServiceCtrlHandlerA
+  │   SetServiceStatus
+  │   StartServiceCtrlDispatcherA
+  └─ Wine must provide all of these from its own DLL implementations.
+
+  ┌ KERNEL32.dll  (25 imports)
+  │   CloseHandle
+  │   CreatePipe
+  │   CreateProcessA
+  │   DeleteCriticalSection
+  │   DeleteFileA
+  │   EnterCriticalSection
+  │   FreeLibrary
+  │   GetLastError
+  │   GetModuleHandleA
+  │   GetModuleHandleW
+  │   GetProcAddress
+  │   InitializeCriticalSection
+  │   ... and 13 more
+  └─ Wine must provide all of these from its own DLL implementations.
+
+  ┌ msvcrt.dll  (40 imports)
+  │   __getmainargs
+  │   __initenv
+  │   __mb_cur_max
+  │   __p__commode
+  │   __p__fmode
+  │   __set_app_type
+  │   __setusermatherr
+  │   _amsg_exit
+  │   _cexit
+  │   _errno
+  │   _initterm
+  │   _iob
+  │   ... and 28 more
+  └─ Wine must provide all of these from its own DLL implementations.
+
+  ┌ libssp-0.dll  (2 imports)
+  │   __stack_chk_fail
+  │   __stack_chk_guard
+  └─ Wine must provide all of these from its own DLL implementations.
+
+  WHY: Before the entry point runs, the loader walks the IAT
+  (Import Address Table).  For each DLL it loads the library and
+  looks up every function by name or ordinal.  It writes the real
+  function address into the IAT slot so that when the program calls
+  e.g. KERNEL32.CreateProcessA it jumps to the correct address.
+
+  Wine's job: provide its own kernel32.dll, user32.dll, etc. that
+  implement these functions using Linux syscalls underneath.
+
+------------------------------------------------------------------------
+  STEP 5 — Apply relocations (if base address changed)
+------------------------------------------------------------------------
+  .reloc section present : yes
+  Relocations stripped   : no
+
+  WHY: If the image was not loaded at its preferred image base,
+  every absolute address embedded in the code is wrong.  The .reloc
+  section lists every such address so the loader can add a delta
+  (actual_base − preferred_base) to each one.  DLLs almost always
+  need this; many EXEs are stripped (no .reloc) and must load at base.
+
+------------------------------------------------------------------------
+  STEP 6 — Hand off to the entry point
+------------------------------------------------------------------------
+  Entry point RVA : 0x000013e0
+  Entry point VA  : 0x00000000004013e0  (image_base + RVA)
+
+  For an EXE the loader jumps to this address.  On Windows that lands
+  in the CRT startup stub which calls WinMain / main.
+  Wine redirects execution here after mapping all DLLs.
+========================================================================
