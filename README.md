@@ -37,6 +37,10 @@ Graphics compatibility research focused on Vulkan device enumeration and SPIR-V 
 ### Phase 6 — Wine/Proton Debug Log Analyzer
 Educational tool to parse Wine debug logs and summarize compatibility issues without executing binaries.
 
+### Phase 7 — Advanced Static PE Analysis
+Deep static analysis tool for PE internals: relocations, exports, TLS metadata, and suspicious indicators.
+Generates detailed markdown reports without executing the binary.
+
 ## Tools
 
 ### Vulkan Device Enumerator
@@ -88,6 +92,21 @@ Summarizes:
 - First failure point
 - Estimated compatibility category (graphics, networking, filesystem, etc.)
 
+### Advanced Static PE Analyzer
+
+```bash
+python3 tools/pe_analyzer_advanced.py samples/nmap_service.exe
+```
+
+Analyzes and generates markdown reports for:
+- Relocation table structure and type distribution
+- Export table metadata
+- Thread Local Storage (TLS) directory
+- Suspicious indicators (packed sections, unusual names)
+- Import Address Table details
+
+Educational deep-dive into PE binary internals — static analysis only.
+
 ## How the Tools Connect
 
 **Diagnosis workflow:**
@@ -121,6 +140,7 @@ Start here based on your interest:
 
 - **Want to understand PE files?** → [pe_inspector.py](tools/pe_inspector.py)
 - **Want to understand loading?** → [pe_mapper.py](tools/pe_mapper.py) + [wine-architecture-map.md](docs/wine-architecture-map.md)
+- **Want deep PE internals?** → [pe_analyzer_advanced.py](tools/pe_analyzer_advanced.py)
 - **Want to debug compatibility?** → [wine_debug_analyzer.py](tools/wine_debug_analyzer.py) + [wine-debugging-workflow.md](docs/wine-debugging-workflow.md)
 - **Want to understand graphics?** → [vulkan_info.c](tools/vulkan_info.c) + [spirv_inspect.py](tools/spirv_inspect.py)
 
@@ -155,6 +175,15 @@ Phase 6 confirmed:
 - Correctly identifies missing modules and errors
 - Categorizes compatibility issues (graphics, networking, filesystem, etc.)
 - Generates actionable summaries for troubleshooting
+
+Phase 7 confirmed:
+
+- Advanced PE analyzer parses relocation tables and distribution
+- Successfully extracts TLS directory metadata
+- Identifies exported functions with ordinals and addresses
+- Detects suspicious indicators (packed sections, unusual names)
+- Generates comprehensive markdown reports
+- Static analysis only — no execution or memory modification
 
 ## Safety Scope
 
